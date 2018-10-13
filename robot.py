@@ -165,20 +165,21 @@ def delay_reply():
     global Ad_replyed
     global nkname
 
-    if SWITCH_DELAY:
-        while len(DELAY_REPLY_DICT)>0:
-            localtime = time.time()
+    if not any(str(nkname) in s for s in Ad_replyed):
+        if SWITCH_DELAY:
+            while len(DELAY_REPLY_DICT)>0:
+                localtime = time.time()
             # print (localtime)
             # print (DELAY_REPLY_DICT[item][0])
             # print (int(DELAY_TIME))
-            for item in list(DELAY_REPLY_DICT.keys()):
-                if SWITCH_REPLY:
-                    reply_content = PREFIX_CONTENT  + "," + str(round(int(DELAY_TIME) / 60, 1)) + "分钟过去了，" + REPLY_DICT[item]
-                    itchat.send(reply_content, toUserName=DELAY_REPLY_DICT[item][1])
-                    Ad_replyed.append(str(nkname))
-                    print ("发送消息")
-                    del DELAY_REPLY_DICT[item]
-            print (DELAY_REPLY_DICT)
+                for item in list(DELAY_REPLY_DICT.keys()):
+                    if SWITCH_REPLY:
+                        reply_content = PREFIX_CONTENT  + "," + str(round(int(DELAY_TIME) / 60, 1)) + "分钟过去了，" + REPLY_DICT[item]
+                        itchat.send(reply_content, toUserName=DELAY_REPLY_DICT[item][1])
+                        Ad_replyed.append(str(nkname))
+                        print ("发送消息")
+                del DELAY_REPLY_DICT[item]
+                print (DELAY_REPLY_DICT)
 
     global timer1
     timer1=threading.Timer(DELAY_TIME,delay_reply)
